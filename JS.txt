@@ -1,0 +1,57 @@
+const gameContainer = document.getElementById('game-container');
+const startButton = document.getElementById('start-button');
+const scoreElement = document.getElementById('score');
+let score = 0;
+let asteroidSpeed = 8; // Slower initial asteroid speed
+let asteroidInterval = 3000; // Slower initial asteroid spawn interval
+let gameStarted = false;
+
+// Start the game
+startButton.addEventListener('click', () => {
+  if (!gameStarted) {
+    gameStarted = true;
+    startButton.style.display = 'none'; // Hide the start button
+    spawnAsteroids();
+    increaseDifficulty();
+  }
+});
+
+// Create asteroids
+function createAsteroid() {
+  const asteroid = document.createElement('div');
+  asteroid.classList.add('asteroid');
+  asteroid.style.left = `${10 + Math.random() * 80}vw`; // Spawn asteroids away from the edges
+  asteroid.style.animationDuration = `${asteroidSpeed}s`;
+  gameContainer.appendChild(asteroid);
+
+  // Remove asteroid after it passes
+  asteroid.addEventListener('animationend', () => {
+    asteroid.remove();
+  });
+
+  // Increase score when asteroid is destroyed (clicked)
+  asteroid.addEventListener('click', () => {
+    asteroid.remove();
+    score++;
+    scoreElement.textContent = `Score: ${score}`;
+  });
+}
+
+// Spawn asteroids at intervals
+function spawnAsteroids() {
+  if (gameStarted) {
+    createAsteroid();
+    setTimeout(spawnAsteroids, asteroidInterval);
+  }
+}
+
+// Gradually increase difficulty
+function increaseDifficulty() {
+  if (gameStarted) {
+    asteroidSpeed -= 0.1; // Increase speed (reduce animation duration)
+    asteroidInterval -= 500; // Reduce spawn interval
+    if (asteroidSpeed < 3) asteroidSpeed = 3; // Minimum speed
+    if (asteroidInterval < 1000) asteroidInterval = 1000; // Minimum interval
+    setTimeout(increaseDifficulty, 5000); // Increase difficulty every 5 seconds
+  }
+}

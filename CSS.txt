@@ -1,0 +1,57 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background: black;
+  overflow: hidden;
+  font-family: Arial, sans-serif;
+}
+
+#game-container {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  perspective: 1000px;
+  overflow: hidden;
+  background: url('https://iili.io/3n7PiRR.png') no-repeat center center/cover;
+}
+
+#start-button {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 10px 20px;
+  font-size: 20px;
+  cursor: pointer;
+  z-index: 3;
+}
+
+#score {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  color: white;
+  font-size: 24px;
+  z-index: 3;
+}
+
+.asteroid {
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  background: url('https://iili.io/3n7rlwP.png') no-repeat center center/cover;
+  animation: moveAsteroid linear infinite;
+}
+
+@keyframes moveAsteroid {
+  from {
+    transform: translateZ(1000px);
+  }
+  to {
+    transform: translateZ(-1000px);
+  }
+}
